@@ -14,6 +14,7 @@ int main(int argc, char *argv[]) {
     char *xargv[MSGSIZE];
     int xargc = 0;
 
+    //自己的
     for (int i = 1 ; i < argc ; i++) {
         xargv[xargc] = argv[i];
         xargc++;
@@ -33,13 +34,12 @@ int main(int argc, char *argv[]) {
                 xargc++;
                 xargv[xargc] = 0;
                 xargc++;
-
                 exec(xargv[0] , xargv);
                 exit(0);
             }
         }
     }
 
-    wait(0);
+   // wait(0);
     exit(0);
 }
