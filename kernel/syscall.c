@@ -148,7 +148,7 @@ syscall(void)
       p->trapframe->a0 = syscalls[num]();
       int mask = p->trace_mask;
       //3: syscall read -> 1023
-      if ((mask >> 1) & num) {
+      if ((mask >> num) & 1) {
           printf("%d: syscall %s -> %d\n" , p->pid , syscall_name[num-1] , p->trapframe->a0);
       }
 

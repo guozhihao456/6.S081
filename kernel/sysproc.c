@@ -105,6 +105,5 @@ sys_trace(void){
         return -1;
     }
     p->trace_mask = mask;
-    printf("hello sys_trace  trace_mask :%d\n",mask);
     return 0;
 }
