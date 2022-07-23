@@ -131,9 +131,9 @@ static uint64 (*syscalls[])(void) = {
 [SYS_trace]   sys_trace,
 };
 
-//static char* syscall_name[] ={"fork","exit","wait","pipe","read","kill","exec","fstat",
-//                              "chdir" , "dup" ,"getpid","sbrk","sleep","uptime","open",
-//                              "write","mknod","unlink","link","mkdir","close","trace"};
+static char* syscall_name[] ={"fork","exit","wait","pipe","read","kill","exec","fstat",
+                              "chdir" , "dup" ,"getpid","sbrk","sleep","uptime","open",
+                              "write","mknod","unlink","link","mkdir","close","trace"};
 
 void
 syscall(void)
@@ -143,8 +143,14 @@ syscall(void)
     //num:系统调用号
   num = p->trapframe->a7;
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
+
       //a0 : 系统调用后的返回值
       p->trapframe->a0 = syscalls[num]();
+      int mask = p->trace_mask;
+      //3: syscall read -> 1023
+      if ((mask >> 1) & num) {
+          printf("%d: syscall %s -> %d\n" , p->pid , syscall_name[num-1] , p->trapframe->a0);
+      }
 
   } else {
     printf("%d %s: unknown sys call %d\n",
